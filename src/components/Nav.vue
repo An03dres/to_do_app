@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="nav-left">
-      <span class="nav-logo">MiApp</span>
+      <span class="nav-logo">MyApp</span>
       <router-link class="nav-link" to="/">Home</router-link>
       <router-link class="nav-link" to="/auth">Auth</router-link>
     </div>
@@ -20,12 +20,22 @@
 <script setup>
 import { useUserStore } from '../store/user'
 import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2' 
 
 const userStore = useUserStore()
 const router = useRouter()
 
 const logout = async () => {
   await userStore.signOut()
+  Swal.fire({
+    icon: 'success',
+    title: 'Logged out',
+    text: 'You have successfully logged out.',
+    timer: 1500,
+    showConfirmButton: false,
+    background: 'rgba(20,30,40,0.90)',
+    color: '#fff'
+  })
   router.push('/auth')
 }
 </script>
@@ -33,7 +43,8 @@ const logout = async () => {
 <style scoped>
 .navbar {
   width: 100%;
-  background: linear-gradient(90deg, #3a8dde 0%, #6ec6ff 100%);
+  background: url('/src/assets/signin.jpg') center/cover no-repeat;
+  backdrop-filter: blur(8px);
   padding: 0.7rem 0;
   display: flex;
   align-items: center;
@@ -83,7 +94,7 @@ const logout = async () => {
 }
 
 .nav-btn {
-  background: linear-gradient(90deg, #3a8dde 0%, #6ec6ff 100%);
+  background: rgba(44, 62, 80, 0.85);
   color: #fff;
   border: none;
   border-radius: 16px;
@@ -99,7 +110,61 @@ const logout = async () => {
   justify-content: center;
 }
 .nav-btn:hover {
-  background: linear-gradient(90deg, #357ab8 0%, #5bb6e6 100%);
+  background: rgba(33, 150, 243, 0.85);
   transform: translateY(-2px) scale(1.03);
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .nav-left, .nav-right {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    gap: 1rem;
+  }
+  .nav-logo {
+    font-size: 1.2rem;
+  }
+  .nav-link {
+    font-size: 1rem;
+    margin-right: 0.7rem;
+  }
+  .user-name {
+    font-size: 1rem;
+  }
+  .nav-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.98rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 0.5rem;
+  }
+  .nav-left, .nav-right {
+    margin: 0;
+    gap: 0.7rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .nav-left {
+    margin-bottom: 0.5rem;
+  }
+  .nav-logo {
+    font-size: 1rem;
+  }
+  .nav-link {
+    font-size: 0.95rem;
+    margin-right: 0.5rem;
+  }
+  .user-name {
+    font-size: 0.95rem;
+  }
+  .nav-btn {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.95rem;
+  }
 }
 </style>
